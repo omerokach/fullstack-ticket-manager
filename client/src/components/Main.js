@@ -17,6 +17,11 @@ function Main(props) {
       setHideTicketCounter((prev) => (prev += 1));
       setShowenTicketArray(tempArr);
     }
+    if (e.target.id === "restoreHideTickets") {
+      console.log("ticketARRAY", ticketArray);
+      setShowenTicketArray([...ticketArray]);
+      setHideTicketCounter(0);
+    }
   };
 
   useEffect(() => {
@@ -27,6 +32,7 @@ function Main(props) {
         ticket.creationTime = new Date(ticket.creationTime).toLocaleString();
         return ticket;
       });
+      setTicketArray(newTickets);
       setShowenTicketArray(newTickets);
     });
   }, []);
@@ -51,7 +57,9 @@ function Main(props) {
           <span>(</span>
           <span id="hideTicketsCounter">{hideTicketsCounter}</span>
           <span> tickets are hidden) </span>
-          <button id="restoreHideTickets">restore</button>
+          <button id="restoreHideTickets" onClick={(e) => clickHandler(e)}>
+            restore
+          </button>
         </div>
         <input
           id="searchInput"
