@@ -1,6 +1,75 @@
+html {
+  scroll-behavior: smooth;
+}
+.App {
+  background-color: cadetblue;
+}
 h4 {
   display: inline;
 }
 .label {
   padding: 10px;
+}
+.ticket {
+  width: 95vw;
+  padding: 1rem;
+  margin: auto;
+  margin: 1em 1em;
+  border: solid;
+  border-radius: 0.5rem;
+  box-shadow: 2px 2px 4px 4px rgb(160, 156, 156);
+  transition-timing-function: linear;
+  background-color: #fff;
+}
+.ticket:hover {
+  transition: width 0.5s;
+  width: 95.5vw;
+}
+.header {
+  top: 0;
+  width: 100%;
+  position: fixed;
+  background-color: cadetblue;
+  padding: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-top: 1rem;
+}
+.info {
+  width: min(500px, 60%);
+  margin: auto;
+  padding: 1em;
+}
+.searchInput {
+  width: 50%;
+  margin: auto;
+}
+#searchInput {
+  font-size: 1.5em;
+  font-style: italic;
+  border: none;
+  border-radius: 25px;
+  width: 70%;
+  margin: auto;
+}
+.hideTicketButton {
+  float: right;
+}
+.ticketList {
+  margin-top: 8rem;
+  height: auto;
+  overflow: auto;
+}
+.label {
+  background-color: rgb(39, 247, 212);
+  float: right;
+  margin: 0.5em;
+  padding: 0.3em;
+  border-radius: 8em;
+}
+#deleteButton {
+  transition-duration: 0.4s;
+}
+#deleteButton:hover {
+  background-color: crimson;
+  color: #ccc;
 }

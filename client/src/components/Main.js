@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
+import Button from "react-bootstrap/Button";
+import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import Ticket from "./Ticket";
+import NewTicketDialog from "./NewTicketDialog";
 const BASE_URL = "/api/tickets";
 
 function Main(props) {
@@ -8,6 +11,19 @@ function Main(props) {
   const [inputValue, setInputValue] = useState("");
   const [showenTicketArray, setShowenTicketArray] = useState([]);
   const [hideTicketsCounter, setHideTicketCounter] = useState(0);
+
+  const getAllData = () => {
+    axios.get(`${BASE_URL}`).then((response) => {
+      const tickets = [...response.data];
+      const newTickets = tickets.map((ticket) => {
+        ticket.creationTime = new Date(ticket.creationTime).toLocaleString();
+        return ticket;
+      });
+      console.log("updated");
+      setTicketArray(newTickets);
+      setShowenTicketArray(newTickets);
+    });
+  };
 
   const clickHandler = (e, value) => {
     if (e.target.className === "hideTicketButton") {
@@ -24,17 +40,13 @@ function Main(props) {
     }
   };
 
+  const updateTicketList = () => {
+    console.log("Update");
+    getAllData();
+  };
+
   useEffect(() => {
-    console.log("DOM LOADED USE EFFECT");
-    axios.get(`${BASE_URL}`).then((response) => {
-      const tickets = [...response.data];
-      const newTickets = tickets.map((ticket) => {
-        ticket.creationTime = new Date(ticket.creationTime).toLocaleString();
-        return ticket;
-      });
-      setTicketArray(newTickets);
-      setShowenTicketArray(newTickets);
-    });
+    getAllData();
   }, []);
 
   useEffect(() => {
@@ -52,28 +64,39 @@ function Main(props) {
   return (
     <div className="main">
       <div className="header">
-        <div>
+        <div className="searchInput">
+          <input
+            id="searchInput"
+            onChange={(e) => setInputValue(e.target.value)}
+            placeholder="Your key word..."
+          ></input>
+        </div>
+        <div className="info">
           <span>showing {showenTicketArray.length} results</span>
           <span>(</span>
           <span id="hideTicketsCounter">{hideTicketsCounter}</span>
           <span> tickets are hidden) </span>
-          <button id="restoreHideTickets" onClick={(e) => clickHandler(e)}>
+          <Button
+            variant="light"
+            id="restoreHideTickets"
+            onClick={(e) => clickHandler(e)}
+          >
             restore
-          </button>
+          </Button>
         </div>
-        <input
-          id="searchInput"
-          onChange={(e) => setInputValue(e.target.value)}
-        ></input>
       </div>
-      {showenTicketArray.map((ticket, index) => (
-        <Ticket
-          ticket={ticket}
-          key={index}
-          index={index}
-          clickHandler={clickHandler}
-        />
-      ))}
+      <div className="ticketList">
+        {showenTicketArray.map((ticket, index) => (
+          <Ticket
+            ticket={ticket}
+            key={index}
+            index={index}
+            clickHandler={clickHandler}
+            deleteTicketFromList={updateTicketList}
+          />
+        ))}
+      </div>
+      <NewTicketDialog addTickerToList={updateTicketList} />
     </div>
   );
 }

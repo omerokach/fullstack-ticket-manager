@@ -1,0 +1,9 @@
+
+POST http://localhost:8080/api/tickets
+content-type: application/json
+
+{
+    "title": "hello",
+      "content": "body.content",
+      "labels": ["hello", "world"]
+}   

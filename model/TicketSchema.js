@@ -2,15 +2,15 @@ const { Schema } = require("mongoose");
 const mongoose = require("mongoose");
 const TicketSchema = new Schema({
   title: {
-    require: true,
+    required: true,
     type: String,
   },
   content: {
-    require: true,
+    required: true,
     type: String,
   },
   userEmail: {
-    require: true,
+    required: true,
     type: String,
   },
   done: false,

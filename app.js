@@ -3,6 +3,7 @@ const Ticket = require("./model/TicketSchema");
 const cors = require("cors");
 const app = express();
 
+app.use(express.json());
 app.use(express.static("client/build"));
 app.use(cors());
 
@@ -42,6 +43,44 @@ app.patch("/api/tickets/:ticketId/:isDone", async (req, res) => {
     }
   );
   return res.status(200).send({ updated: true });
+});
+
+app.post("/api/tickets", (req, res) => {
+  console.log(req.body);
+  const { body } = req;
+  try {
+    const ticket = new Ticket({
+      title: body.title,
+      content: body.content,
+      userEmail: body.email,
+      done: false,
+      creationTime: new Date(),
+      labels: body.labels,
+    });
+    ticket
+      .save()
+      .then(() => {
+        res.status(200).json({ message: "succeed" });
+      })
+      .catch((error) => {
+        console.log(error.message);
+        res.status(400).json({ error: error.message });
+      });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.delete("/api/tickets/:ticketId", (req, res) => {
+  const { ticketId } = req.params;
+  console.log(ticketId);
+  try {
+    Ticket.deleteOne({ _id: ticketId }).then(() => {
+      return res.status(200).json({ message: "succeed" });
+    });
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
 });
 
 module.exports = app;
