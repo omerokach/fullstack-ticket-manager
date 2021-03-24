@@ -1,20 +1,16 @@
 import React, { useState } from "react";
 
 function Ticket(props) {
+  const [ticketIndex, setTicketId] = useState(props.index);
   const { ticket } = props;
-  const [hidden, setHidden] = useState(false);
-
-  const isHidden = (e) => {
-    setHidden((prev) => !prev);
-    hidden
-      ? (e.target.style["visibility"] = "hidden")
-      : (e.target.style["visibility"] = "visible");
-  };
 
   return (
     <div className="ticket">
       <h4>{ticket.title}</h4>
-      <button className="hideTicketButton" onClick={(e) => isHidden(e)}>
+      <button
+        className="hideTicketButton"
+        onClick={(e) => props.clickHandler(e, ticketIndex)}
+      >
         Hide
       </button>
       <p>{ticket.content}</p>

@@ -6,59 +6,66 @@ const BASE_URL = "/api/tickets";
 function Main(props) {
   const [ticketArray, setTicketArray] = useState([]);
   const [inputValue, setInputValue] = useState("");
+  const [showenTicketArray, setShowenTicketArray] = useState([]);
+  const [hideTicketsCounter, setHideTicketCounter] = useState(0);
+
+  const clickHandler = (e, value) => {
+    if (e.target.className === "hideTicketButton") {
+      let tempArr = [...showenTicketArray];
+      console.log("VALUe", value);
+      tempArr.splice(value, 1);
+      setHideTicketCounter((prev) => (prev += 1));
+      setShowenTicketArray(tempArr);
+    }
+  };
 
   useEffect(() => {
     console.log("DOM LOADED USE EFFECT");
     axios.get(`${BASE_URL}`).then((response) => {
       const tickets = [...response.data];
-      let index = 0;
-      const wait = new Promise((resolve, reject) => {
-        tickets.forEach((ticket) => {
-          ticket.creationTime = new Date(ticket.creationTime).toLocaleString();
-          index++;
-          if (index === tickets.length - 1) {
-            resolve();
-          }
-        });
+      const newTickets = tickets.map((ticket) => {
+        ticket.creationTime = new Date(ticket.creationTime).toLocaleString();
+        return ticket;
       });
-      wait.then(() => setTicketArray(tickets));
+      setTicketArray(newTickets);
+      setShowenTicketArray(newTickets);
     });
   }, []);
 
   useEffect(() => {
     console.log("INPUT VAL USE EFFECT");
-    axios
-      .get(`${BASE_URL}?searchText=${inputValue}`)
-      .then((response) => {
-        const tickets = [...response.data];
-        let index = 0;
-        const wait = new Promise((resolve, reject) => {
-          tickets.forEach((ticket) => {
-            ticket.creationTime = new Date(
-              ticket.creationTime
-            ).toLocaleString();
-            index++;
-            if (index === tickets.length - 1) {
-              resolve();
-            }
-          });
-        });
-        wait.then(() => setTicketArray(tickets));
-      })
-      .catch((error) => console.log("EERRORR", error));
+    axios.get(`${BASE_URL}?searchText=${inputValue}`).then((response) => {
+      const tickets = [...response.data];
+      const newTickets = tickets.map((ticket) => {
+        ticket.creationTime = new Date(ticket.creationTime).toLocaleString();
+        return ticket;
+      });
+      setTicketArray(newTickets);
+    });
   }, [inputValue]);
 
   return (
     <div className="main">
-      {console.log(inputValue)}
-      {console.log(ticketArray)}
-      <input
-        id="searchInput"
-        // value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-      ></input>
-      {ticketArray.map((ticket, index) => (
-        <Ticket ticket={ticket} key={index} />
+      <div className="header">
+        <div>
+          <span id="hideTicketsCounter">
+            showing {showenTicketArray.length} results ({hideTicketsCounter}{" "}
+            tickets are hidden){" "}
+          </span>
+          <button id="restoreHideTickets">restore</button>
+        </div>
+        <input
+          id="searchInput"
+          onChange={(e) => setInputValue(e.target.value)}
+        ></input>
+      </div>
+      {showenTicketArray.map((ticket, index) => (
+        <Ticket
+          ticket={ticket}
+          key={index}
+          index={index}
+          clickHandler={clickHandler}
+        />
       ))}
     </div>
   );
