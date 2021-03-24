@@ -27,7 +27,6 @@ function Main(props) {
         ticket.creationTime = new Date(ticket.creationTime).toLocaleString();
         return ticket;
       });
-      setTicketArray(newTickets);
       setShowenTicketArray(newTickets);
     });
   }, []);
@@ -40,7 +39,7 @@ function Main(props) {
         ticket.creationTime = new Date(ticket.creationTime).toLocaleString();
         return ticket;
       });
-      setTicketArray(newTickets);
+      setShowenTicketArray(newTickets);
     });
   }, [inputValue]);
 
@@ -48,10 +47,10 @@ function Main(props) {
     <div className="main">
       <div className="header">
         <div>
-          <span id="hideTicketsCounter">
-            showing {showenTicketArray.length} results ({hideTicketsCounter}{" "}
-            tickets are hidden){" "}
-          </span>
+          <span>showing {showenTicketArray.length} results</span>
+          <span>(</span>
+          <span id="hideTicketsCounter">{hideTicketsCounter}</span>
+          <span> tickets are hidden) </span>
           <button id="restoreHideTickets">restore</button>
         </div>
         <input
