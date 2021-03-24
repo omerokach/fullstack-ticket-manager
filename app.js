@@ -7,7 +7,6 @@ app.use(express.static("client/build"));
 app.use(cors());
 
 app.get("/api/tickets", (req, res) => {
-  //   res.status(200).json({ hello: "world" });
   const { searchText } = req.query;
   try {
     Ticket.find().then((data) => {
@@ -17,7 +16,7 @@ app.get("/api/tickets", (req, res) => {
         const re = new RegExp(searchText, "i");
         const tickets = data.filter((ticket) => re.test(ticket.title));
         if (tickets.length === 0) {
-          return res.status(400).json({ message: "No match for text" });
+          return res.status(404).json({ message: "No match for text" });
         } else {
           return res.status(200).json(tickets);
         }
