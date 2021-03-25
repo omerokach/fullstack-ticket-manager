@@ -1,6 +1,6 @@
 html {
   scroll-behavior: smooth;
-  background-color: cadetblue;
+  background-color: #5f9ea0;
 }
 .App {
   background-color: cadetblue;
@@ -101,5 +101,12 @@ h4 {
   background-color: #ccc;
 }
 .headers-lable-container {
+  display: flex;
+}
+img {
+  margin-right: 1rem;
+  display: inline;
+}
+.header-container {
   display: flex;
 }
