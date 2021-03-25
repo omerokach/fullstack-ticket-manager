@@ -13,7 +13,6 @@ function Ticket(props) {
         `${BASE_URL}/${ticketId}/${e.target.innerText}`
       );
       props.updateTicketList();
-      console.log(res);
     } catch (err) {
       console.log("ERROR:", err.message);
     }
@@ -21,8 +20,6 @@ function Ticket(props) {
 
   const deleteTicket = async () => {
     try {
-      console.log("ticketId", ticketId);
-      console.log("ticket", ticket);
       const res = await axios.delete(`${BASE_URL}/${ticketId}`);
       props.updateTicketList();
     } catch (e) {

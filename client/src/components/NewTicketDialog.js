@@ -32,7 +32,6 @@ export default function NewTicketDialog(props) {
   };
 
   const submitTicket = async () => {
-    console.log(newTicket);
     if (!newTicket.title || !newTicket.content) return;
 
     let parsedLabels = newTicket.labels
@@ -48,9 +47,7 @@ export default function NewTicketDialog(props) {
 
     try {
       const res = await axios.post("/api/tickets", req);
-      console.log("res.data.message", res.data.message);
       res.data.message === "succeed" && props.addTickerToList();
-      console.log("ERROR", res.data.message);
       const status = res.data.message
         ? "Ticket was added Successfully!"
         : "It seems there's been an error. Oof :(";

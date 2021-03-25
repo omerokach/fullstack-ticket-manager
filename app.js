@@ -27,7 +27,6 @@ app.get("/api/tickets", (req, res) => {
 app.patch("/api/tickets/:ticketId/:isDone", async (req, res) => {
   const ticketId = req.params.ticketId;
   const isDone = req.params.isDone;
-  console.log(isDone);
   try {
     await Ticket.findById(ticketId);
   } catch (error) {
@@ -47,7 +46,6 @@ app.patch("/api/tickets/:ticketId/:isDone", async (req, res) => {
 });
 
 app.post("/api/tickets", (req, res) => {
-  console.log(req.body);
   const { body } = req;
   try {
     const ticket = new Ticket({
@@ -74,7 +72,6 @@ app.post("/api/tickets", (req, res) => {
 
 app.delete("/api/tickets/:ticketId", (req, res) => {
   const { ticketId } = req.params;
-  console.log(ticketId);
   try {
     Ticket.deleteOne({ _id: ticketId }).then(() => {
       return res.status(200).json({ message: "succeed" });
