@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Spinner from "./Spinner";
 import axios from "axios";
 import Ticket from "./Ticket";
-import ToPageTop from './ToPageTop'
+import ToPageTop from "./ToPageTop";
 import logo from "../style/apple-touch-icon.png";
 import NewTicketDialog from "./NewTicketDialog";
 import HeaderLabels from "./HeaderLabels";
@@ -101,37 +101,37 @@ function Main(props) {
       <div className="header">
         <div className="header-container">
           <img src={logo}></img>
-          <div>
-            <div className="searchInput">
-              <input
-                id="searchInput"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                placeholder="Your key word..."
-              ></input>
-            </div>
-            <div className="info">
-              <span>showing {showenTicketArray.length} results</span>
-              <span>(</span>
-              <span id="hideTicketsCounter">{hideTicketsCounter}</span>
-              <span> tickets are hidden) </span>
-              <Button
-                variant="light"
-                id="restoreHideTickets"
-                onClick={(e) => clickHandler(e)}
-              >
-                restore
-              </Button>
-            </div>
-            <div className="headers-lable-container">
-              {labelArray.map((label, i) => (
-                <HeaderLabels
-                  labelName={label}
-                  key={i}
-                  clickHandler={clickHandler}
-                />
-              ))}
-            </div>
+          {/* <div> */}
+          <div className="searchInput">
+            <input
+              id="searchInput"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              placeholder="Your key word..."
+            ></input>
+          </div>
+          <div className="info">
+            <span>showing {showenTicketArray.length} results</span>
+            <span>(</span>
+            <span id="hideTicketsCounter">{hideTicketsCounter}</span>
+            <span> tickets are hidden) </span>
+            <Button
+              variant="light"
+              id="restoreHideTickets"
+              onClick={(e) => clickHandler(e)}
+            >
+              restore
+            </Button>
+          </div>
+          <div className="headers-lable-container">
+            {labelArray.map((label, i) => (
+              <HeaderLabels
+                labelName={label}
+                key={i}
+                clickHandler={clickHandler}
+              />
+            ))}
+            {/* </div> */}
           </div>
         </div>
       </div>
