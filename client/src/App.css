@@ -1,5 +1,6 @@
 html {
   scroll-behavior: smooth;
+  background-color: cadetblue;
 }
 .App {
   background-color: cadetblue;
@@ -11,19 +12,21 @@ h4 {
   padding: 10px;
 }
 .ticket {
-  width: 95vw;
+  width: 80vw;
   padding: 1rem;
   margin: auto;
-  margin: 1em 1em;
+  /* margin: 1em 1em; */
+  margin-top: 1em;
+  margin-bottom: 1em;
   border: solid;
   border-radius: 0.5rem;
-  box-shadow: 2px 2px 4px 4px rgb(160, 156, 156);
-  transition-timing-function: linear;
+  box-shadow: 0.5px 0.5px 2.5px 2.5px rgb(44, 44, 44);
   background-color: #fff;
+  transition-duration: 0.5s;
 }
 .ticket:hover {
   transition: width 0.5s;
-  width: 95.5vw;
+  width: 82.5vw;
 }
 .header {
   top: 0;
@@ -46,16 +49,21 @@ h4 {
 #searchInput {
   font-size: 1.5em;
   font-style: italic;
-  border: none;
+  border: solid;
   border-radius: 25px;
   width: 70%;
   margin: auto;
+  transition-duration: 1s;
+}
+#searchInput:focus {
+  border: thick double #32a1ce;
+  outline: none;
 }
 .hideTicketButton {
   float: right;
 }
 .ticketList {
-  margin-top: 8rem;
+  margin-top: 15rem;
   height: auto;
   overflow: auto;
 }
@@ -72,4 +80,26 @@ h4 {
 #deleteButton:hover {
   background-color: crimson;
   color: #ccc;
+}
+#spinner:hover::-webkit-scrollbar {
+  display: none;
+}
+#spinner-text {
+  font-size: xx-large;
+  width: 50%;
+  margin: auto;
+}
+.header-label {
+  margin: auto;
+  border: solid 0.5px;
+  padding: 0.5rem;
+  border-radius: 10px;
+  transition-duration: 0.4s;
+}
+.header-label:hover {
+  cursor: pointer;
+  background-color: #ccc;
+}
+.headers-lable-container {
+  display: flex;
 }

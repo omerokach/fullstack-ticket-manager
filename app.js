@@ -27,6 +27,7 @@ app.get("/api/tickets", (req, res) => {
 app.patch("/api/tickets/:ticketId/:isDone", async (req, res) => {
   const ticketId = req.params.ticketId;
   const isDone = req.params.isDone;
+  console.log(isDone);
   try {
     await Ticket.findById(ticketId);
   } catch (error) {
@@ -34,7 +35,7 @@ app.patch("/api/tickets/:ticketId/:isDone", async (req, res) => {
   }
   await Ticket.findByIdAndUpdate(
     ticketId,
-    { done: isDone === "done" ? true : false },
+    { done: isDone === "Done" ? true : false },
     { new: true },
     (err) => {
       if (err) {

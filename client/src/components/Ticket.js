@@ -7,12 +7,22 @@ function Ticket(props) {
   const [ticketId, setTicketId] = useState(props.ticket._id);
   const { ticket } = props;
 
+  const doneOrUndone = async (e) => {
+    try {
+      const res = await axios.patch(
+        `${BASE_URL}/${ticketId}/${e.target.innerText}`
+      );
+      props.updateTicketList();
+      console.log(res);
+    } catch (err) {}
+  };
+
   const deleteTicket = async () => {
     try {
       console.log("ticketId", ticketId);
       console.log("ticket", ticket);
       const res = await axios.delete(`${BASE_URL}/${ticketId}`);
-      props.deleteTicketFromList();
+      props.updateTicketList();
     } catch (e) {
       console.log(e.message);
     }
@@ -32,12 +42,18 @@ function Ticket(props) {
         <span className="ticket-email">{ticket.userEmail}</span> |{" "}
         <span className="ticket-date">{ticket.creationTime}</span>
       </p>
-      {console.log("ticket.labels", ticket.labels)}
       {ticket.labels
         ? ticket.labels.map((label) => {
             return <span className="label">{label}</span>;
           })
         : null}
+      {ticket.done ? <span> done ✔ </span> : null}
+      <button
+        className="check-button"
+        onClick={(e, ticketId) => doneOrUndone(e)}
+      >
+        {props.ticket.done ? "Undone" : "Done"}
+      </button>
       <button id="deleteButton" onClick={() => deleteTicket()}>
         Delete
       </button>

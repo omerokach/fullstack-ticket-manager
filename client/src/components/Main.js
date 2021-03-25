@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Spinner from "./Spinner";
 import axios from "axios";
 import Ticket from "./Ticket";
 import NewTicketDialog from "./NewTicketDialog";
+import HeaderLabels from "./HeaderLabels";
 const BASE_URL = "/api/tickets";
 
 function Main(props) {
@@ -11,25 +13,42 @@ function Main(props) {
   const [inputValue, setInputValue] = useState("");
   const [showenTicketArray, setShowenTicketArray] = useState([]);
   const [hideTicketsCounter, setHideTicketCounter] = useState(0);
+  const [labelArray, setLabelArray] = useState([]);
+
+  function uniq(array) {
+    var result = [];
+    array.map((item) => {
+      if (result.indexOf(item) < 0) {
+        result.push(item);
+      }
+    });
+    console.log("RESULT", result);
+    return result;
+  }
 
   const getAllData = () => {
     axios.get(`${BASE_URL}`).then((response) => {
       const tickets = [...response.data];
+      var lables = [];
       const newTickets = tickets.map((ticket) => {
+        if (ticket.labels !== undefined) {
+          lables = [...lables, ...ticket.labels];
+        }
         ticket.creationTime = new Date(ticket.creationTime).toLocaleString();
         return ticket;
       });
-      console.log("updated");
+      lables = uniq(lables);
+      console.log("LABELS", lables);
+      setLabelArray([...lables]);
       setTicketArray(newTickets);
       setShowenTicketArray(newTickets);
     });
   };
 
-  const clickHandler = (e, value) => {
+  const clickHandler = (e, index, id) => {
     if (e.target.className === "hideTicketButton") {
       let tempArr = [...showenTicketArray];
-      console.log("VALUe", value);
-      tempArr.splice(value, 1);
+      tempArr.splice(index, 1);
       setHideTicketCounter((prev) => (prev += 1));
       setShowenTicketArray(tempArr);
     }
@@ -38,15 +57,17 @@ function Main(props) {
       setShowenTicketArray([...ticketArray]);
       setHideTicketCounter(0);
     }
+    if (e.target.className === "header-label") {
+    }
   };
 
   const updateTicketList = () => {
-    console.log("Update");
     getAllData();
   };
 
   useEffect(() => {
     getAllData();
+    return <Spinner />;
   }, []);
 
   useEffect(() => {
@@ -67,6 +88,7 @@ function Main(props) {
         <div className="searchInput">
           <input
             id="searchInput"
+            value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             placeholder="Your key word..."
           ></input>
@@ -84,17 +106,30 @@ function Main(props) {
             restore
           </Button>
         </div>
+        <div className="headers-lable-container">
+          {labelArray.map((label, i) => (
+            <HeaderLabels
+              labelName={label}
+              key={i}
+              clickHandler={clickHandler}
+            />
+          ))}
+        </div>
       </div>
       <div className="ticketList">
-        {showenTicketArray.map((ticket, index) => (
-          <Ticket
-            ticket={ticket}
-            key={index}
-            index={index}
-            clickHandler={clickHandler}
-            deleteTicketFromList={updateTicketList}
-          />
-        ))}
+        {showenTicketArray<1 ? (
+          <Spinner />
+        ) : (
+          showenTicketArray.map((ticket, index) => (
+            <Ticket
+              ticket={ticket}
+              key={index}
+              index={index}
+              clickHandler={clickHandler}
+              updateTicketList={updateTicketList}
+            />
+          ))
+        )}
       </div>
       <NewTicketDialog addTickerToList={updateTicketList} />
     </div>

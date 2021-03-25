@@ -79,7 +79,7 @@ describe(projectName, () => {
     const currentState = firstTicket.done;
     const { body } = await request(app)
       .patch(
-        `/api/tickets/${firstTicket._id}/${currentState ? "undone" : "done"}`
+        `/api/tickets/${firstTicket._id}/${currentState ? "Undone" : "Done"}`
       )
       .query({
         searchText: "full",
