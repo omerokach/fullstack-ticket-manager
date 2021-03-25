@@ -12,6 +12,7 @@ function Main(props) {
   const [ticketArray, setTicketArray] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [showenTicketArray, setShowenTicketArray] = useState([]);
+  const [showByLableArray, setShowByLableArray] = useState([]);
   const [hideTicketsCounter, setHideTicketCounter] = useState(0);
   const [labelArray, setLabelArray] = useState([]);
 
@@ -40,6 +41,7 @@ function Main(props) {
       lables = uniq(lables);
       console.log("LABELS", lables);
       setLabelArray([...lables]);
+      setShowByLableArray(newTickets);
       setTicketArray(newTickets);
       setShowenTicketArray(newTickets);
     });
@@ -58,6 +60,16 @@ function Main(props) {
       setHideTicketCounter(0);
     }
     if (e.target.className === "header-label") {
+      let tempArr = [];
+      ticketArray.map((ticket) => {
+        if (ticket.hasOwnProperty("labels")) {
+          if (ticket.labels.includes(e.target.innerText)) {
+            console.log(ticket);
+            tempArr = [...tempArr, ticket];
+          }
+        }
+      });
+      setShowenTicketArray(tempArr);
     }
   };
 
@@ -117,7 +129,7 @@ function Main(props) {
         </div>
       </div>
       <div className="ticketList">
-        {showenTicketArray<1 ? (
+        {showenTicketArray < 1 ? (
           <Spinner />
         ) : (
           showenTicketArray.map((ticket, index) => (

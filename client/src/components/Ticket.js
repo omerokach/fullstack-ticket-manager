@@ -14,7 +14,9 @@ function Ticket(props) {
       );
       props.updateTicketList();
       console.log(res);
-    } catch (err) {}
+    } catch (err) {
+      console.log("ERROR:", err.message);
+    }
   };
 
   const deleteTicket = async () => {
