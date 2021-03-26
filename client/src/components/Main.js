@@ -25,7 +25,6 @@ function Main(props) {
         result.push(item);
       }
     });
-    console.log("RESULT", result);
     return result;
   }
 
@@ -41,7 +40,6 @@ function Main(props) {
         return ticket;
       });
       lables = uniq(lables);
-      console.log("LABELS", lables);
       setLabelArray([...lables]);
       setShowByLableArray(newTickets);
       setTicketArray(newTickets);
@@ -142,6 +140,7 @@ function Main(props) {
           showenTicketArray.map((ticket, index) => (
             <Ticket
               ticket={ticket}
+              ticketId={ticket["_id"]}
               key={index}
               index={index}
               clickHandler={clickHandler}

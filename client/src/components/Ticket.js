@@ -4,9 +4,8 @@ const BASE_URL = "/api/tickets";
 
 function Ticket(props) {
   const [ticketIndex, setTicketIndex] = useState(props.index);
-  const [ticketId, setTicketId] = useState(props.ticket._id);
+  const [ticketId, setTicketId] = useState(props.ticket["_id"]);
   const { ticket } = props;
-
   const doneOrUndone = async (e) => {
     try {
       const res = await axios.patch(
@@ -20,7 +19,7 @@ function Ticket(props) {
 
   const deleteTicket = async () => {
     try {
-      const res = await axios.delete(`${BASE_URL}/${ticketId}`);
+      const res = await axios.delete(`${BASE_URL}/${ticket["_id"]}`);
       props.updateTicketList();
     } catch (e) {
       console.log(e.message);

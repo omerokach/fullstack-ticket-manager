@@ -50,6 +50,7 @@ app.patch("/api/tickets/:ticketId/:isDone", async (req, res) => {
 
 app.post("/api/tickets", (req, res) => {
   const { body } = req;
+  console.log("POST", body);
   try {
     const ticket = new Ticket({
       title: body.title,
@@ -59,6 +60,7 @@ app.post("/api/tickets", (req, res) => {
       creationTime: new Date(),
       labels: body.labels,
     });
+    console.log("ticket", ticket);
     ticket
       .save()
       .then(() => {
