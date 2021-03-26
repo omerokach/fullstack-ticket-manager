@@ -14,7 +14,9 @@ function seed(database) {
 
   return seeder
     .import(seed)
-    .then((_) => console.log("seeded successfully!"))
+    .then((_) => {
+      console.log("seeded successfully!");
+    })
     .catch((err) => {
       console.log(err);
       console.log("error");

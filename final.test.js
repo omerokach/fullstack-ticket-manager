@@ -55,7 +55,6 @@ describe(projectName, () => {
   test("Can get all tickets", async () => {
     const { body } = await request(app).get("/api/tickets").expect(200);
     const allTickets = await tickets.find({}).toArray();
-
     expect(body.length).toBe(allTickets.length);
     expect(body[0]._id.toString()).toBe(allTickets[0]._id.toString());
   });
@@ -71,7 +70,6 @@ describe(projectName, () => {
     const expectedTicket = await tickets.findOne({
       title: { $regex: "full", $options: "i" },
     });
-
     expect(body.length).toBe(1);
     expect(body[0]._id.toString()).toBe(expectedTicket._id.toString());
   });
@@ -81,7 +79,7 @@ describe(projectName, () => {
     const currentState = firstTicket.done;
     const { body } = await request(app)
       .patch(
-        `/api/tickets/${firstTicket._id}/${currentState ? "undone" : "done"}`
+        `/api/tickets/${firstTicket._id}/${currentState ? "Undone" : "Done"}`
       )
       .query({
         searchText: "full",
